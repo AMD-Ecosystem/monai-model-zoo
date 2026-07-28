@@ -20,7 +20,7 @@ import nibabel as nib
 import numpy as np
 from monai.bundle import ConfigWorkflow
 from parameterized import parameterized
-from utils import check_workflow
+from utils import check_workflow, get_infer_config
 
 TEST_CASE_INFER = [
     {
@@ -401,7 +401,7 @@ class TestVista3d(unittest.TestCase):
 
         inferrer = ConfigWorkflow(
             workflow_type="infer",
-            config_file=os.path.join(bundle_root, "configs/inference.json"),
+            config_file=get_infer_config(bundle_root),
             logging_file=os.path.join(bundle_root, "configs/logging.conf"),
             meta_file=os.path.join(bundle_root, "configs/metadata.json"),
             **override,
@@ -449,7 +449,7 @@ class TestVista3d(unittest.TestCase):
 
         inferrer = ConfigWorkflow(
             workflow_type="infer",
-            config_file=os.path.join(bundle_root, "configs/inference.json"),
+            config_file=get_infer_config(bundle_root),
             logging_file=os.path.join(bundle_root, "configs/logging.conf"),
             meta_file=os.path.join(bundle_root, "configs/metadata.json"),
             **override,
