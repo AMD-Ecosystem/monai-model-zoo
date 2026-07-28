@@ -13,7 +13,20 @@
 import os
 import subprocess
 
+import torch
 from monai.bundle import ConfigParser, ConfigWorkflow
+
+
+def get_infer_config(bundle_root, base="configs/inference.json"):
+    """Return config file list for ConfigWorkflow, appending the ROCm overlay when running on ROCm."""
+    cfg = [os.path.join(bundle_root, base)]
+    if torch.version.hip is not None:
+        for ext in ("json", "yaml"):
+            rocm = os.path.join(bundle_root, f"configs/inference_rocm.{ext}")
+            if os.path.exists(rocm):
+                cfg.append(rocm)
+                break
+    return cfg
 
 
 def export_overrided_config(config_file, override_dict, output_path):

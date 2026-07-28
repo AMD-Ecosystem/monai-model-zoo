@@ -19,7 +19,7 @@ import nibabel as nib
 import numpy as np
 from monai.bundle import ConfigWorkflow
 from parameterized import parameterized
-from utils import check_workflow, export_overrided_config
+from utils import check_workflow, export_overrided_config, get_infer_config
 
 TEST_CASE_1 = [
     {
@@ -160,9 +160,12 @@ class TestDints(unittest.TestCase):
         bundle_root = override["bundle_root"]
         arch_name = get_searched_arch(os.path.join(bundle_root, "models"))
         override["arch_ckpt_path"] = os.path.join(bundle_root, "models", arch_name)
+        # This bundle's ROCm overlay is inference_rocm.yaml (not .json) — detect either
+        # extension so the AMD ROCm path is actually exercised, not silently skipped.
+        infer_cfg = get_infer_config(bundle_root, "configs/inference.yaml")
         inferrer = ConfigWorkflow(
             workflow_type="infer",
-            config_file=os.path.join(bundle_root, "configs/inference.yaml"),
+            config_file=infer_cfg,
             logging_file=os.path.join(bundle_root, "configs/logging.conf"),
             meta_file=os.path.join(bundle_root, "configs/metadata.json"),
             **override,

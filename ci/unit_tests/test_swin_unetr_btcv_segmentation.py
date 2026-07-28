@@ -18,7 +18,7 @@ import numpy as np
 from monai.bundle import ConfigWorkflow
 from monai.data import ITKWriter
 from parameterized import parameterized
-from utils import check_workflow
+from utils import check_workflow, get_infer_config
 
 TEST_CASE_1 = [  # train, evaluate
     {
@@ -114,9 +114,10 @@ class TestSwinUnetr(unittest.TestCase):
         override["dataset_dir"] = self.dataset_dir
         bundle_root = override["bundle_root"]
 
+        infer_cfg = get_infer_config(bundle_root)
         inferrer = ConfigWorkflow(
             workflow_type="infer",
-            config_file=os.path.join(bundle_root, "configs/inference.json"),
+            config_file=infer_cfg,
             logging_file=os.path.join(bundle_root, "configs/logging.conf"),
             meta_file=os.path.join(bundle_root, "configs/metadata.json"),
             **override,
