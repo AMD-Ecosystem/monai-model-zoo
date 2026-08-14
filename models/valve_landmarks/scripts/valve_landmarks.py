@@ -1,4 +1,5 @@
 # Copyright (c) 2022 Eric Kerfoot under MIT license, see license.txt
+# Modifications Copyright (C) 2026 Advanced Micro Devices, Inc. All rights reserved.
 
 import os
 from typing import Any, Callable, Sequence
@@ -125,7 +126,7 @@ class PointRegressor(Regressor):
                 dropout=self.dropout,
                 conv_only=True,
             )
-            linear = nn.Linear(int(np.product(in_shape)) // 2, self.out_shape[0])
+            linear = nn.Linear(int(np.prod(in_shape)) // 2, self.out_shape[0])
             point_paths.append(nn.Sequential(conv, Flatten(), linear))
 
         return torch.nn.Sequential(ParallelCat(point_paths), Reshape(*self.out_shape))
