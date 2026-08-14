@@ -8,6 +8,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+# Modifications Copyright (C) 2026 Advanced Micro Devices, Inc. All rights reserved.
 
 import copy
 import json
@@ -78,8 +79,8 @@ def consep_nuclei_dataset(datalist, output_dir, crop_size, min_area=80, min_dist
         instances = m["inst_map"]
 
         for nuclei_id, (class_id, (y, x)) in enumerate(zip(m["inst_type"], m["inst_centroid"]), start=1):
-            x, y = (int(x), int(y))
-            class_id = int(class_id)
+            x, y = (int(x.item() if hasattr(x, "item") else x), int(y.item() if hasattr(y, "item") else y))
+            class_id = int(class_id.item() if hasattr(class_id, "item") else class_id)
             class_id = 3 if class_id in (3, 4) else 4 if class_id in (5, 6, 7) else class_id  # override
 
             if 0 < limit <= len(dataset_json):
