@@ -10,18 +10,14 @@ MONAI Model Zoo on ROCm installation
 
 MONAI Model Zoo on ROCm can be installed using `AMD PyPI <https://pypi.amd.com/simple/>`_ in a Docker container or on bare metal.
 
-System requirements
-===================
+System requirements:
 
-+--------------+----------------+----------------+----------------------------------+
-| ROCm version | Ubuntu version | Python version | AMD Instinct GPU (tested)        |
-+==============+================+================+==================================+
-| 10.0.0       | 24.04          | 3.12           | MI355X, MI325X, MI300X           |
-+--------------+----------------+----------------+----------------------------------+
++--------------+----------------+----------------------------------+
+| ROCm version | Ubuntu version | AMD Instinct™ GPU (tested)       |
++==============+================+==================================+
+| 10.0.0       | 24.04          | MI355X, MI325X, MI300X           |
++--------------+----------------+----------------------------------+
 
-.. note::
-
-  MONAI 1.6.0 and a ROCm-compatible PyTorch build are required.
 
 Setting up the environment
 ============================
@@ -47,7 +43,7 @@ Set up the environment for installing MONAI Model Zoo on ROCm as follows:
 Installing MONAI using AMD PyPI
 ===============================
 
-Install the MONAI package, then clone the overlay repository.
+Install the `MONAI <https://rocm.docs.amd.com/projects/monai/en/latest/>`_ package, then clone the overlay repository.
 
 1. Install MONAI.
 
