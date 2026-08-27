@@ -44,7 +44,7 @@ Each bundle targets a volumetric CT segmentation task.
     - DynUNet
     - CT
   * - ``pancreas_ct_dints_segmentation``
-    - Pancreas and pancreatic tumor segmentation, NAS-optimized
+    - Pancreas and pancreatic tumor segmentation, NAS-discovered architecture
     - DiNTS
     - CT
 
