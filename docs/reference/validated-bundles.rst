@@ -1,5 +1,5 @@
 .. meta::
-  :description: Bundle-specific ROCm overlay details, architecture, and quick-start commands for validated MONAI Model Zoo bundles
+  :description: Architecture and overlay paths for validated MONAI Model Zoo bundles
   :keywords: MONAI Model Zoo, validated bundles, vista3d, swin_unetr_btcv_segmentation, wholeBody_ct_segmentation, spleen_deepedit_annotation, pancreas_ct_dints_segmentation, ROCm
 
 .. _validated-bundles:
@@ -8,14 +8,14 @@
 Validated bundles
 ***********************
 
-Five bundles are inference-optimized and validated for AMD MI355X, MI325X, and MI300X GPUs with ROCm 10.0.0, Ubuntu 24.04, Python 3.12, and MONAI 1.6.0. 
+AMD has validated five inference-optimized bundles for AMD MI355X, MI325X, and MI300X GPUs with ROCm 10.0.0, Ubuntu 24.04, Python 3.12, and MONAI 1.6.0. 
 
-AMD provides a ROCm overlay config, ``inference_rocm.json`` or ``inference_rocm.yaml``, for each bundle. See :doc:`ROCm overlays <rocm-overlays>` for merge behavior and shared keys. The overlay applies these optimizations on top of the unmodified upstream inference config:
+AMD provides a ROCm overlay config, ``inference_rocm.json`` or ``inference_rocm.yaml``, for each bundle. See :doc:`ROCm overlays <rocm-overlays>` for merge behavior and shared keys. The overlay applies these optimizations on top of the unmodified upstream inference config.
 
 - Channels-last 3D memory format, ``torch.channels_last_3d``.
 - BF16 automatic mixed precision, ``amp_kwargs={'dtype': torch.bfloat16}``.
-- ``torch.compile`` graph optimization.
-- Device-aware checkpoint loading, ``map_location=@device``, where the upstream bundle doesn't already place weights on-device. See the per-bundle notes.
+- ``torch.compile()`` graph optimization.
+- Device-aware checkpoint loading, ``map_location=@device``, where the upstream bundle doesn't already place weights on-device.
 
 Each bundle targets a volumetric CT segmentation task.
 
@@ -73,18 +73,6 @@ vista3d
   * - ROCm overlay
     - ``models/vista3d/configs/inference_rocm.json``
 
-The ``network`` key is re-bound to apply ``channels_last_3d`` after device placement. The ``initialize`` block sets determinism, overrides ``amp_kwargs`` to BF16, loads the checkpoint, then wraps the network in ``torch.compile``. A separate ``checkpointloader`` entry sets ``map_location`` explicitly for correct AMD GPU placement.
-
-.. code:: shell
-
-   python -m monai.bundle download vista3d --bundle_dir models/
-   python -m monai.bundle run \
-       --config_file "['models/vista3d/configs/inference.json', \
-                       'models/vista3d/configs/inference_rocm.json']" \
-       --bundle_root models/vista3d \
-       --input_dict "{'image': 'ct_volume.nii.gz', 'label_prompt': [25], \
-                      'points': [[123, 212, 151]], 'point_labels': [1]}"
-
 swin_unetr_btcv_segmentation
 ============================
 
@@ -111,18 +99,6 @@ swin_unetr_btcv_segmentation
     - BTCV Challenge dataset, Synapse
   * - ROCm overlay
     - ``models/swin_unetr_btcv_segmentation/configs/inference_rocm.json``
-
-The overlay re-declares ``network_def``, identical to upstream with ``use_checkpoint: false``, so the ROCm ``network`` binding applies cleanly. The ``checkpointloader`` entry adds ``map_location=@device`` and uses the existing ``@checkpoint`` variable for the weight path.
-
-.. code:: shell
-
-   python -m monai.bundle download swin_unetr_btcv_segmentation --bundle_dir models/
-   python -m monai.bundle run \
-       --config_file "['models/swin_unetr_btcv_segmentation/configs/inference.json', \
-                       'models/swin_unetr_btcv_segmentation/configs/inference_rocm.json']" \
-       --bundle_root models/swin_unetr_btcv_segmentation \
-       --dataset_dir ct_volumes_dir \
-       --output_dir output_dir
 
 wholeBody_ct_segmentation
 =========================
@@ -151,18 +127,6 @@ wholeBody_ct_segmentation
   * - ROCm overlay
     - ``models/wholeBody_ct_segmentation/configs/inference_rocm.json``
 
-The overlay applies the standard ROCm optimizations described earlier. The ``initialize`` block guards the checkpoint load with ``if @load_pretrain``, matching the upstream bundle's optional weight-loading pattern, then compiles the network.
-
-.. code:: shell
-
-   python -m monai.bundle download wholeBody_ct_segmentation --bundle_dir models/
-   python -m monai.bundle run \
-       --config_file "['models/wholeBody_ct_segmentation/configs/inference.json', \
-                       'models/wholeBody_ct_segmentation/configs/inference_rocm.json']" \
-       --bundle_root models/wholeBody_ct_segmentation \
-       --dataset_dir ct_volumes_dir \
-       --output_dir output_dir
-
 spleen_deepedit_annotation
 ==========================
 
@@ -189,18 +153,6 @@ spleen_deepedit_annotation
     - Task09_Spleen, Medical Segmentation Decathlon
   * - ROCm overlay
     - ``models/spleen_deepedit_annotation/configs/inference_rocm.json``
-
-``spleen_deepedit_annotation`` requires a GEMM transpose guard in addition to the standard ROCm optimizations. The ``initialize`` block calls ``network_def.enable_gemm_transpose(True)`` when the method is available on ROCm. It also sets ``evaluator.compile = True``. The overlay compiles the network with ``torch.compile(@network)``.
-
-.. code:: shell
-
-   python -m monai.bundle download spleen_deepedit_annotation --bundle_dir models/
-   python -m monai.bundle run \
-       --config_file "['models/spleen_deepedit_annotation/configs/inference.json', \
-                       'models/spleen_deepedit_annotation/configs/inference_rocm.json']" \
-       --bundle_root models/spleen_deepedit_annotation \
-       --dataset_dir ct_volumes_dir \
-       --output_dir output_dir
 
 pancreas_ct_dints_segmentation
 ==============================
@@ -229,19 +181,7 @@ pancreas_ct_dints_segmentation
   * - ROCm overlay
     - ``models/pancreas_ct_dints_segmentation/configs/inference_rocm.yaml``
 
-The overlay is provided in YAML format, matching the upstream inference config format for this bundle. In addition to the standard ROCm optimizations, it raises the ``SlidingWindowInferer`` ``sw_batch_size`` from 4 to 8, keeping ``roi_size`` at ``[96, 96, 96]`` and ``overlap`` at 0.625, to improve GPU utilization on AMD Instinct™ hardware.
-
-.. code:: shell
-
-   python -m monai.bundle download pancreas_ct_dints_segmentation --bundle_dir models/
-   python -m monai.bundle run \
-       --config_file "['models/pancreas_ct_dints_segmentation/configs/inference.yaml', \
-                       'models/pancreas_ct_dints_segmentation/configs/inference_rocm.yaml']" \
-       --bundle_root models/pancreas_ct_dints_segmentation \
-       --dataset_dir ct_volumes_dir \
-       --output_dir output_dir
-
 CI validation
-=============
+==============
 
-AMD provides unit tests for each bundle in ``ci/unit_tests/test_<bundle_name>.py``. The tests run the full ``ConfigWorkflow`` inference pipeline with a synthetic input. The ROCm overlay applies automatically when running on a ROCm build, where ``torch.version.hip is not None``. Bundles that guard weight loading with ``@load_pretrain`` run without pretrained weights.
+AMD provides unit tests for each bundle in ``ci/unit_tests/test_bundle_name.py``. The tests run the full ``ConfigWorkflow`` inference pipeline with a synthetic input. The ROCm overlay applies automatically when running on a ROCm build, where ``torch.version.hip is not None``. Bundles that guard weight loading with ``@load_pretrain`` run without pretrained weights.

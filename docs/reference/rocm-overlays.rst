@@ -26,7 +26,7 @@ Pass the base file and the overlay together in ``--config_file`` as a JSON list.
 
 Replace ``bundle_name`` with a validated bundle directory name. Use ``.yaml`` for both paths when the bundle's upstream inference config is YAML. Among the validated bundles, only ``pancreas_ct_dints_segmentation`` uses YAML.
 
-See :doc:`Installation <../install/installation>` for setup steps. See :doc:`Validated bundles <validated-bundles>` for per-bundle quick-start commands.
+See :doc:`Installation <../install/installation>` for setup steps. See :doc:`Validated bundles <validated-bundles>` for per-bundle overlay paths.
 
 Overlay files
 =============

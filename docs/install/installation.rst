@@ -91,4 +91,4 @@ Download a bundle from the MONAI model registry, then run inference with the ove
 
    .. note::
 
-      Configuration files are JSON or yaml, depending on the bundle. For bundle configuration paths and input keys, see :doc:`Validated bundles <../reference/validated-bundles>`.
+      Configuration files are JSON or yaml, depending on the bundle. For overlay paths, see :doc:`Validated bundles <../reference/validated-bundles>`.
