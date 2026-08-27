@@ -8,7 +8,9 @@
 Validated bundles
 ***********************
 
-Five bundles are inference-optimized and validated for AMD Instinct™ GPUs in ROCm-LS 26.08. All five are validated on AMD Instinct™ MI355X, MI325X, and MI300X, with ROCm 10.0, Ubuntu 24.04, Python 3.12, and MONAI 1.6.0. AMD provides a ROCm overlay config, ``inference_rocm.json`` or ``inference_rocm.yaml``, for each bundle. See :doc:`ROCm overlays <rocm-overlays>` for merge behavior and shared keys. The overlay applies these optimizations on top of the unmodified upstream inference config:
+Five bundles are inference-optimized and validated for AMD MI355X, MI325X, and MI300X GPUs with ROCm 10.0.0, Ubuntu 24.04, Python 3.12, and MONAI 1.6.0. 
+
+AMD provides a ROCm overlay config, ``inference_rocm.json`` or ``inference_rocm.yaml``, for each bundle. See :doc:`ROCm overlays <rocm-overlays>` for merge behavior and shared keys. The overlay applies these optimizations on top of the unmodified upstream inference config:
 
 - Channels-last 3D memory format, ``torch.channels_last_3d``.
 - BF16 automatic mixed precision, ``amp_kwargs={'dtype': torch.bfloat16}``.
