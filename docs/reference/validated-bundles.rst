@@ -1,5 +1,5 @@
 .. meta::
-  :description: Architecture and overlay paths for validated MONAI Model Zoo bundles
+  :description: Architecture, overlay paths, and inference input keys for validated MONAI Model Zoo bundles
   :keywords: MONAI Model Zoo, validated bundles, vista3d, swin_unetr_btcv_segmentation, wholeBody_ct_segmentation, spleen_deepedit_annotation, pancreas_ct_dints_segmentation, ROCm
 
 .. _validated-bundles:
@@ -8,7 +8,7 @@
 Validated bundles
 ***********************
 
-AMD has validated five inference-optimized bundles for AMD MI355X, MI325X, and MI300X GPUs with ROCm 10.0.0, Ubuntu 24.04, Python 3.12, and MONAI 1.6.0. 
+AMD has validated five inference-optimized bundles for AMD MI355X, MI325X, and MI300X GPUs with ROCm 10.0.0, Ubuntu 24.04, Python 3.12, and MONAI 1.6.0.
 
 AMD provides a ROCm overlay config, ``inference_rocm.json`` or ``inference_rocm.yaml``, for each bundle. See :doc:`ROCm overlays <rocm-overlays>` for merge behavior and shared keys. The overlay applies these optimizations on top of the unmodified upstream inference config.
 
@@ -72,6 +72,10 @@ vista3d
     - Task09_Spleen, Medical Segmentation Decathlon, plus internal multi-organ data
   * - ROCm overlay
     - ``models/vista3d/configs/inference_rocm.json``
+  * - Configuration format
+    - JSON
+  * - Input key
+    - ``input_dict``, with ``image`` and ``label_prompt``
 
 swin_unetr_btcv_segmentation
 ============================
@@ -99,6 +103,10 @@ swin_unetr_btcv_segmentation
     - BTCV Challenge dataset, Synapse
   * - ROCm overlay
     - ``models/swin_unetr_btcv_segmentation/configs/inference_rocm.json``
+  * - Configuration format
+    - JSON
+  * - Input key
+    - ``dataset_dir``
 
 wholeBody_ct_segmentation
 =========================
@@ -126,6 +134,10 @@ wholeBody_ct_segmentation
     - TotalSegmentator dataset
   * - ROCm overlay
     - ``models/wholeBody_ct_segmentation/configs/inference_rocm.json``
+  * - Configuration format
+    - JSON
+  * - Input key
+    - ``dataset_dir``
 
 spleen_deepedit_annotation
 ==========================
@@ -153,6 +165,10 @@ spleen_deepedit_annotation
     - Task09_Spleen, Medical Segmentation Decathlon
   * - ROCm overlay
     - ``models/spleen_deepedit_annotation/configs/inference_rocm.json``
+  * - Configuration format
+    - JSON
+  * - Input key
+    - ``dataset_dir``
 
 pancreas_ct_dints_segmentation
 ==============================
@@ -180,6 +196,10 @@ pancreas_ct_dints_segmentation
     - Task07_Pancreas, Medical Segmentation Decathlon
   * - ROCm overlay
     - ``models/pancreas_ct_dints_segmentation/configs/inference_rocm.yaml``
+  * - Configuration format
+    - YAML
+  * - Input key
+    - ``dataset_dir``
 
 CI validation
 ==============

@@ -54,6 +54,6 @@ extensions = [
     "sphinx_copybutton",
 ]
 
-html_title = f"{project} documentation"
+html_title = f"{project} {version_number}"
 
 external_projects_current_project = "MONAI Model Zoo on ROCm"
