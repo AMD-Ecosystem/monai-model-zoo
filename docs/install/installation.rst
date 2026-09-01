@@ -8,11 +8,20 @@
 MONAI Model Zoo on ROCm installation
 ********************************************
 
-MONAI Model Zoo on ROCm installation requires `MONAI on ROCm <https://rocm.docs.amd.com/projects/monai/en/latest/install/installation.html>`_ . 
+MONAI Model Zoo on ROCm installation requires `MONAI on ROCm <https://rocm.docs.amd.com/projects/monai/en/latest/install/installation.html>`_.
 
-1. Install `MONAI on ROCm <https://rocm.docs.amd.com/projects/monai/en/latest/install/installation.html>`_ .
+1. Install `MONAI on ROCm <https://rocm.docs.amd.com/projects/monai/en/latest/install/installation.html>`_.
 
-2. Download a bundle from the MONAI model registry.
+2. Clone the AMD model-zoo repository.
+
+   The AMD ROCm overlay files are in the AMD model-zoo repository.
+
+   .. code:: shell
+
+      git clone https://github.com/AMD-Ecosystem/model-zoo
+      cd model-zoo
+
+3. Download a bundle from the MONAI model registry.
 
    Replace ``bundle_name`` with the bundle you want to download, for example ``vista3d``.
 
@@ -21,9 +30,9 @@ MONAI Model Zoo on ROCm installation requires `MONAI on ROCm <https://rocm.docs.
       python -m monai.bundle download bundle_name \
           --bundle_dir models/
 
-3. Run inference with the ROCm overlay.
+4. Run inference with the ROCm overlay.
 
-   Pass the base inference configuration and the AMD ROCm overlay as a JSON list. The overlay merges into the base configuration at load time. The overlay doesn't change upstream files. See :doc:`ROCm overlays <../reference/rocm-overlays>` for information on overlay keys. For overlay paths, configuration format, and input keys, see :doc:`Validated bundles <../reference/validated-bundles>`.
+   Pass the base inference configuration and the AMD ROCm overlay as a JSON list. The overlay merges into the base configuration at load time. 
 
    .. code:: shell
 
@@ -33,3 +42,7 @@ MONAI Model Zoo on ROCm installation requires `MONAI on ROCm <https://rocm.docs.
           --bundle_root models/bundle_name \
           --dataset_dir input_dir \
           --output_dir output_dir
+
+   .. note:: 
+      
+      Configuration files can be in either JSON or YAML format, depending on the bundle. The input key also varies by bundle. For information about overlay keys, see :doc:`ROCm overlays <../reference/rocm-overlays>`. For information about overlay paths, configuration format, and input keys, see :doc:`Validated bundles <../reference/validated-bundles>` .
