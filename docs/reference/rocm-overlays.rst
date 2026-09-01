@@ -55,7 +55,8 @@ Every overlay rebinds ``network`` and replaces ``initialize``.
       | Loads weights through ``checkpointloader`` when that step is present.
       | Sets ``evaluator.network`` to ``torch.compile(@network)``.
 
-``wholeBody_ct_segmentation``, ``spleen_deepedit_annotation``, and ``pancreas_ct_dints_segmentation`` guard the checkpoint load with ``if @load_pretrain``. ``vista3d`` and ``swin_unetr_btcv_segmentation`` call ``checkpointloader`` unconditionally.
+``wholeBody_ct_segmentation``, ``spleen_deepedit_annotation``, and ``pancreas_ct_dints_segmentation`` guard the checkpoint load with ``if @load_pretrain``.
+``vista3d`` and ``swin_unetr_btcv_segmentation`` call ``checkpointloader`` unconditionally.
 
 Bundle-specific keys
 ====================

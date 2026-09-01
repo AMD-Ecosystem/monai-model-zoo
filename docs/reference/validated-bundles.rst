@@ -10,11 +10,13 @@ Validated bundles
 
 AMD has validated five inference-optimized bundles for AMD MI355X, MI325X, and MI300X GPUs with ROCm 10.0.0, Ubuntu 24.04, Python 3.12, and MONAI 1.6.0.
 
-AMD provides a ROCm overlay config, ``inference_rocm.json`` or ``inference_rocm.yaml``, for each bundle. See :doc:`ROCm overlays <rocm-overlays>` for merge behavior and shared keys. The overlay applies these optimizations on top of the unmodified upstream inference config.
+AMD provides a ROCm overlay configuration, ``inference_rocm.json`` or ``inference_rocm.yaml``, for each bundle.
+See :doc:`ROCm overlays <rocm-overlays>` for merge behavior and shared keys.
+The overlay applies these settings on top of the unmodified upstream inference configuration.
 
 - Channels-last 3D memory format, ``torch.channels_last_3d``.
 - BF16 automatic mixed precision, ``amp_kwargs={'dtype': torch.bfloat16}``.
-- ``torch.compile()`` graph optimization.
+- ``torch.compile()`` graph compilation.
 - Device-aware checkpoint loading, ``map_location=@device``, where the upstream bundle doesn't already place weights on-device.
 
 Each bundle targets a volumetric CT segmentation task.
@@ -204,4 +206,7 @@ pancreas_ct_dints_segmentation
 CI validation
 ==============
 
-AMD provides unit tests for each bundle in ``ci/unit_tests/test_bundle_name.py``. The tests run the full ``ConfigWorkflow`` inference pipeline with a synthetic input. The ROCm overlay applies automatically when running on a ROCm build, where ``torch.version.hip is not None``. Bundles that guard weight loading with ``@load_pretrain`` run without pretrained weights.
+AMD provides unit tests for each bundle in ``ci/unit_tests/test_bundle_name.py``.
+The tests run the ``ConfigWorkflow`` inference pipeline with a synthetic input.
+The ROCm overlay applies on a ROCm build when ``torch.version.hip is not None``.
+Bundles that guard weight loading with ``@load_pretrain`` run without pretrained weights.

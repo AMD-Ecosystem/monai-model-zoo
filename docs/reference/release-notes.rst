@@ -4,14 +4,17 @@
 
 .. _model-zoo-whats-new:
 
-**********************************************
-What's new in MONAI Model Zoo on ROCm 26.08
-**********************************************
+*************************************************
+Release notes for MONAI Model Zoo on ROCm 26.08
+*************************************************
 
-ROCm-LS 26.08 is the first AMD ROCm-optimized release of the MONAI Model Zoo. Five bundles are inference-validated and optimized for AMD Instinct™ GPUs using MONAI Bundle overlay configurations.
+ROCm-LS 26.08 is the first MONAI Model Zoo release for AMD ROCm.
+AMD validated five bundles for inference on AMD Instinct™ GPUs using MONAI Bundle overlay configurations.
 
 New features
 ============
+
+ROCm-LS 26.08 adds overlay files, shared overlay settings, bundle-specific overlay keys, and CI tests.
 
 ROCm inference overlays for five bundles
 ----------------------------------------
@@ -27,11 +30,11 @@ AMD provides ``inference_rocm.json`` or ``inference_rocm.yaml`` overlay files fo
 ROCm optimization wedge
 -----------------------
 
-All five overlays apply the following optimizations:
+All five overlays apply the same settings.
 
-- Channels-last 3D memory format, which reorders tensor layout to ``torch.channels_last_3d`` for improved memory access efficiency on AMD CDNA architectures.
-- BF16 automatic mixed precision, which reduces memory bandwidth pressure and speeds up matrix operations by setting ``amp_kwargs={'dtype': torch.bfloat16}`` on the evaluator.
-- ``torch.compile``, which compiles the PyTorch graph for optimized kernel fusion and dispatch on the ROCm HIP backend.
+- Channels-last 3D memory format, which reorders the tensor layout to ``torch.channels_last_3d`` on AMD CDNA architectures.
+- BF16 automatic mixed precision, which sets ``amp_kwargs={'dtype': torch.bfloat16}`` on the evaluator.
+- ``torch.compile()``, which compiles the PyTorch graph on the ROCm HIP backend.
 
 Where the upstream bundle doesn't already place weights on-device, the overlay also applies device-aware checkpoint loading, ``map_location=@device``. This applies to ``vista3d`` and ``swin_unetr_btcv_segmentation``.
 
@@ -47,16 +50,23 @@ Some overlays add settings that apply to a single bundle.
   * - Bundle
     - Additional change
   * - ``swin_unetr_btcv_segmentation``
-    - Re-declares ``network_def``, identical to upstream with ``use_checkpoint: false``, so the ROCm network binding applies cleanly. Also adds ``map_location=@device`` to the checkpointloader.
+    - | Re-declares ``network_def``, identical to upstream with ``use_checkpoint: false``, so the ROCm network binding applies.
+      | Adds ``map_location=@device`` to the checkpointloader.
   * - ``spleen_deepedit_annotation``
-    - Calls ``network_def.enable_gemm_transpose(True)`` when the method is present. This toggles a GEMM-based ``ConvTranspose3d`` upsample path optimized for ROCm. The path is an exact decomposition of the same weights and is effective only on ROCm builds. Also sets ``evaluator.compile = True``. The network is compiled through the overlay's ``torch.compile(@network)`` step.
+    - | Calls ``network_def.enable_gemm_transpose(True)`` when the method is present.
+      | This call toggles a GEMM-based ``ConvTranspose3d`` upsample path for ROCm.
+      | The path is an exact decomposition of the same weights and is effective only on ROCm builds.
+      | Sets ``evaluator.compile = True``.
+      | The overlay's ``torch.compile(@network)`` step compiles the network.
   * - ``pancreas_ct_dints_segmentation``
-    - Overrides ``SlidingWindowInferer`` parameters, ``roi_size=[96,96,96]``, ``sw_batch_size=8``, and ``overlap=0.625``, for improved GPU utilization on AMD hardware.
+    - Overrides ``SlidingWindowInferer`` parameters with ``roi_size=[96,96,96]``, ``sw_batch_size=8``, and ``overlap=0.625``.
 
 CI unit tests
 -------------
 
-AMD provides unit tests for each validated bundle in ``ci/unit_tests/test_<bundle_name>.py``. Tests exercise the full ``ConfigWorkflow`` inference pipeline with synthetic inputs and the ROCm overlay applied, without requiring pretrained weights. Tests run in the ``aisw-ci-builder-tester`` GPU CI pipeline.
+AMD provides unit tests for each validated bundle in ``ci/unit_tests/test_bundle_name.py``.
+The tests run the ``ConfigWorkflow`` inference pipeline with synthetic inputs and the ROCm overlay without requiring pretrained weights.
+The ``aisw-ci-builder-tester`` GPU CI pipeline runs the tests.
 
 Known issues
 ============
@@ -70,10 +80,10 @@ These issues apply to ROCm-LS 26.08.
   * - Issue
     - Affected bundles
     - Workaround
-  * - ``torch.compile`` increases first-inference latency because of JIT compilation. Later inferences are faster.
+  * - ``torch.compile()`` increases first-inference latency because of JIT compilation.
     - All five bundles
-    - Run a warm-up pass before timing. Remove ``torch.compile`` from the ``initialize`` block in the overlay if first-call latency matters.
-  * - BF16 AMP might produce marginally different numerical outputs compared to FP32 or FP16 reference runs. Segmentation masks are equivalent for clinical use.
+    - Run a warm-up pass before timing. If first-call latency matters, remove ``torch.compile()`` from the ``initialize`` block in the overlay.
+  * - BF16 AMP might produce different numerical outputs compared to FP32 or FP16 reference runs.
     - All five bundles
     - Override ``amp_kwargs`` to ``{'dtype': torch.float16}`` or remove the AMP override to run in FP32.
 

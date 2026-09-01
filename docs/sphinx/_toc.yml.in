@@ -16,7 +16,7 @@ subtrees:
 - caption: Reference
   entries:
   - file: reference/release-notes
-    title: What's new
+    title: Release notes
   - file: reference/validated-bundles
     title: Validated bundles
   - file: reference/rocm-overlays

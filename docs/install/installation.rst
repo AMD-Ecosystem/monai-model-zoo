@@ -33,5 +33,3 @@ MONAI Model Zoo on ROCm installation requires `MONAI on ROCm <https://rocm.docs.
           --bundle_root models/bundle_name \
           --dataset_dir input_dir \
           --output_dir output_dir
-
-   

@@ -8,11 +8,13 @@
 What is MONAI Model Zoo on ROCm
 **************************************
 
-MONAI Model Zoo on ROCm provides an inference-optimized MONAI Model Zoo port for AMD GPUs. ROCm overlay configuration files cover five volumetric CT segmentation bundles. The overlays layer on top of the upstream bundle configurations through the MONAI Bundle override mechanism without changing model weights.
+MONAI Model Zoo on ROCm provides a MONAI Model Zoo port for inference on AMD GPUs.
+ROCm overlay configuration files cover five volumetric CT segmentation bundles.
+The MONAI Bundle override mechanism layers each overlay on the upstream bundle configuration without changing model weights.
 
-Features include:
+The overlays configure these inference behaviors.
 
-- Channels-last 3D memory format, which reorders tensor memory layout for improved memory access on AMD CDNA architectures.
-- BF16 automatic mixed precision, which reduces memory bandwidth pressure and improves compute throughput.
-- ``torch.compile`` graph compilation for optimized kernel dispatch on the ROCm HIP backend.
+- Channels-last 3D memory format, which reorders the tensor memory layout on AMD CDNA architectures.
+- BF16 automatic mixed precision for inference.
+- ``torch.compile()`` graph compilation on the ROCm HIP backend.
 - Device-aware checkpoint loading for bundles that don't already place weights on-device.
