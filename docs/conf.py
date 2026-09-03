@@ -37,7 +37,7 @@ all_article_info_author = ""
 version_number = "26.08"
 
 # for PDF output on Read the Docs
-project = "MONAI Model Zoo on ROCm"
+project = "MONAI Model Zoo 26.08 on ROCm"
 author = "Advanced Micro Devices, Inc."
 copyright = "Copyright (C) 2026 Advanced Micro Devices, Inc. All rights reserved."
 version = version_number
@@ -51,6 +51,6 @@ extensions = [
     "sphinx_copybutton",
 ]
 
-html_title = f"{project} {version_number}"
+html_title = f"{project} documentation"
 
 external_projects_current_project = "MONAI Model Zoo on ROCm"
