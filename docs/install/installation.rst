@@ -32,9 +32,21 @@ MONAI Model Zoo on ROCm installation requires `MONAI on ROCm <https://rocm.docs.
 
 4. Run inference with the ROCm overlay.
 
-   Pass the base inference configuration and the AMD ROCm overlay as a JSON list. The overlay merges into the base configuration at load time. 
+   Pass the base inference configuration and the AMD ROCm overlay as a JSON list. The overlay merges into the base configuration at load time. Export the MIOpen and TorchInductor variables first so the channels-last MIOpen path and the TorchInductor autotuning the overlay relies on take effect.
 
    .. code:: shell
+
+      # MIOpen: route channels-last convolutions through NHWC kernels and tune
+      export PYTORCH_MIOPEN_SUGGEST_NHWC=1
+      export MIOPEN_FIND_MODE=1
+      export MIOPEN_FIND_ENFORCE=4
+
+      # TorchInductor: autotune torch.compile() kernels
+      export TORCHINDUCTOR_MAX_AUTOTUNE=1
+      export TORCHINDUCTOR_MAX_AUTOTUNE_GEMM=1
+      export TORCHINDUCTOR_COORDINATE_DESCENT_TUNING=1
+      export TORCHINDUCTOR_EPILOGUE_FUSION=1
+      export TORCHINDUCTOR_MAX_AUTOTUNE_CONV_BACKENDS=ATEN,TRITON
 
       python -m monai.bundle run \
           --config_file "['models/bundle_name/configs/inference.json', \
