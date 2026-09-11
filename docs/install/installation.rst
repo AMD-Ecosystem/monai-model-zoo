@@ -5,7 +5,7 @@
 .. _installing-model-zoo:
 
 ********************************************
-MONAI Model Zoo on ROCm installation
+Installing MONAI Model Zoo on ROCm 
 ********************************************
 
 MONAI Model Zoo on ROCm installation requires `MONAI on ROCm <https://rocm.docs.amd.com/projects/monai/en/latest/install/installation.html>`_.
