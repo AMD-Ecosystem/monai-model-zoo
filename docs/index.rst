@@ -38,10 +38,6 @@ The code is open and hosted at `<https://github.com/AMD-Ecosystem/model-zoo>`_.
     * :ref:`validated-bundles`
     * :ref:`rocm-overlays`
 
-  .. grid-item-card:: Related content
-
-    * `MONAI Model Zoo blog <hhttps://advanced-micro-devices-rocm-blogs--280.com.readthedocs.build/projects/preview/en/280/>`_
-
 To contribute to MONAI Model Zoo on ROCm, see
 `Contributing to model-zoo <https://github.com/AMD-Ecosystem/model-zoo/blob/main/CONTRIBUTING.md>`_.
 
