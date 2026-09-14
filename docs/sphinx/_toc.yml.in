@@ -15,10 +15,6 @@ subtrees:
     title: Validated bundles
   - file: reference/rocm-overlays
     title: ROCm overlays
-- caption: Related content
-  entries:
-  - url: https://rocm.blogs.amd.com/software-tools-optimization/model-zoo-intro/README.html
-    title: MONAI Model Zoo blog
 - caption: About
   entries:
   - file: license
