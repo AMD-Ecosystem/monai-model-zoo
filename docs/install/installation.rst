@@ -8,9 +8,9 @@
 Installing MONAI Model Zoo on ROCm 
 ********************************************
 
-MONAI Model Zoo on ROCm installation requires `MONAI on ROCm <https://rocm.docs.amd.com/projects/monai/en/latest/install/installation.html>`_.
+MONAI Model Zoo on ROCm installation requires `MONAI on ROCm <https://rocm.docs.amd.com/projects/monai/en/docs-26.08/install/installation.html>`_.
 
-1. Install `MONAI on ROCm <https://rocm.docs.amd.com/projects/monai/en/latest/install/installation.html>`_.
+1. Install `MONAI on ROCm <https://rocm.docs.amd.com/projects/monai/en/docs-26.08/install/installation.html>`_.
 
 2. Clone the AMD monai-model-zoo repository.
 
