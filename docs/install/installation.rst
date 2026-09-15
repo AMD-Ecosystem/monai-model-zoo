@@ -12,14 +12,14 @@ MONAI Model Zoo on ROCm installation requires `MONAI on ROCm <https://rocm.docs.
 
 1. Install `MONAI on ROCm <https://rocm.docs.amd.com/projects/monai/en/latest/install/installation.html>`_.
 
-2. Clone the AMD model-zoo repository.
+2. Clone the AMD monai-model-zoo repository.
 
-   The AMD ROCm overlay files are in the AMD model-zoo repository.
+   The AMD ROCm overlay files are in the AMD monai-model-zoo repository.
 
    .. code:: shell
 
-      git clone https://github.com/AMD-Ecosystem/model-zoo
-      cd model-zoo
+      git clone https://github.com/AMD-Ecosystem/monai-model-zoo
+      cd monai-model-zoo
 
 3. Download a bundle from the MONAI model registry.
 

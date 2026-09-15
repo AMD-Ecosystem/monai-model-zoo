@@ -24,7 +24,7 @@ The overlays configure these inference behaviors.
 - ``torch.compile()`` graph compilation on the ROCm HIP backend.
 - Device-aware checkpoint loading for bundles that don't already place weights on-device.
 
-The code is open and hosted at `<https://github.com/AMD-Ecosystem/model-zoo>`_.
+The code is open and hosted at `<https://github.com/AMD-Ecosystem/monai-model-zoo>`_.
 
 .. grid:: 2
   :gutter: 3
@@ -39,6 +39,6 @@ The code is open and hosted at `<https://github.com/AMD-Ecosystem/model-zoo>`_.
     * :ref:`rocm-overlays`
 
 To contribute to MONAI Model Zoo on ROCm, see
-`Contributing to model-zoo <https://github.com/AMD-Ecosystem/model-zoo/blob/main/CONTRIBUTING.md>`_.
+`Contributing to monai-model-zoo <https://github.com/AMD-Ecosystem/monai-model-zoo/blob/main/CONTRIBUTING.md>`_.
 
 Licensing information is on the :doc:`Licensing <license>` page.
