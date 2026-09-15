@@ -15,8 +15,6 @@ flavor defines the site header display, select the flavor for the corresponding 
 flavor options: rocm, rocm-docs-home, rocm-blogs, rocm-ds, instinct, ai-developer-hub, local, generic
 '''
 html_theme = "rocm_docs_theme"
-# repository_url is set explicitly because the theme can only derive it from an
-# https or git@host:org/repo remote, which SSH host aliases don't match.
 html_theme_options = {"flavor": "rocm-ls"}
 
 '''
