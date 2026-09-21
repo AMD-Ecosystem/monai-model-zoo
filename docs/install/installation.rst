@@ -72,4 +72,4 @@ MONAI Model Zoo on ROCm installation requires `MONAI on ROCm <https://rocm.docs.
 
    .. note::
 
-      Configuration files can be in either JSON or YAML format, depending on the bundle. The input key also varies by bundle. For information about overlay keys, see :doc:`ROCm overlays <../reference/rocm-overlays>`. For information about overlay paths, configuration format, and input keys, see :doc:`Validated bundles <../reference/validated-bundles>` .
+      Configuration files can be in either JSON or YAML format, depending on the bundle. The input key varies by bundle — for example, ``vista3d`` uses ``--input_dict``. Refer to the ``docs/`` directory inside the bundle for input format details. For information about overlay keys, see :doc:`ROCm overlays <../reference/rocm-overlays>`. For information about overlay paths and configuration format, see :doc:`Validated bundles <../reference/validated-bundles>`.
