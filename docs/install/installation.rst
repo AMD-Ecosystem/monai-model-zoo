@@ -50,13 +50,26 @@ MONAI Model Zoo on ROCm installation requires `MONAI on ROCm <https://rocm.docs.
 
    .. code:: shell
 
+      cd models/bundle_name
       python -m monai.bundle run \
-          --config_file "['models/bundle_name/configs/inference.json', \
-                          'models/bundle_name/configs/inference_rocm.json']" \
-          --bundle_root models/bundle_name \
+          --config_file "['configs/inference.json', \
+                          'configs/inference_rocm.json']" \
+          --bundle_root . \
           --dataset_dir input_dir \
           --output_dir output_dir
 
-   .. note:: 
-      
+   .. note::
+
+      Running from inside the bundle directory is required because bundles load custom code from
+      the bundle's ``scripts/`` package, which must be on the Python path when the configuration
+      is initialized.
+
+   .. note::
+
+      After changing into the bundle directory, ``--dataset_dir`` and ``--output_dir`` are resolved
+      relative to that directory. Use absolute paths to avoid ambiguity, for example
+      ``--dataset_dir /path/to/input_dir``.
+
+   .. note::
+
       Configuration files can be in either JSON or YAML format, depending on the bundle. The input key also varies by bundle. For information about overlay keys, see :doc:`ROCm overlays <../reference/rocm-overlays>`. For information about overlay paths, configuration format, and input keys, see :doc:`Validated bundles <../reference/validated-bundles>` .
