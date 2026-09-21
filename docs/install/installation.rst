@@ -44,31 +44,24 @@ MONAI Model Zoo on ROCm installation requires `MONAI on ROCm <https://rocm.docs.
       export TORCHINDUCTOR_EPILOGUE_FUSION=1
       export TORCHINDUCTOR_MAX_AUTOTUNE_CONV_BACKENDS=ATEN,TRITON
 
-5. Run inference with the ROCm overlay.
-
-   Pass the base inference configuration and the AMD ROCm overlay as a JSON list. The overlay merges into the base configuration at load time. 
+5. Change directory to the bundle directory. Bundles load custom code from the bundle's ``scripts/`` package. This package must be on the Python path when the configuration is initialized.
 
    .. code:: shell
 
       cd models/bundle_name
+
+6. Run inference with the ROCm overlay.
+
+   Pass the base inference configuration and the AMD ROCm overlay as a JSON list. The overlay merges into the base configuration at load time. ``--dataset_dir`` and ``--output_dir`` are resolved relative to the bundle directory. Use absolute paths to avoid ambiguity, for example ``--dataset_dir /path/to/input_dir``.
+
+   .. code:: shell
+
       python -m monai.bundle run \
           --config_file "['configs/inference.json', \
                           'configs/inference_rocm.json']" \
           --bundle_root . \
-          --dataset_dir input_dir \
-          --output_dir output_dir
-
-   .. note::
-
-      Running from inside the bundle directory is required because bundles load custom code from
-      the bundle's ``scripts/`` package, which must be on the Python path when the configuration
-      is initialized.
-
-   .. note::
-
-      After changing into the bundle directory, ``--dataset_dir`` and ``--output_dir`` are resolved
-      relative to that directory. Use absolute paths to avoid ambiguity, for example
-      ``--dataset_dir /path/to/input_dir``.
+          --dataset_dir /path/to/input_dir \
+          --output_dir /path/to/output_dir
 
    .. note::
 
