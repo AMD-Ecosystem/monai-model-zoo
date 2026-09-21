@@ -52,6 +52,8 @@ MONAI Model Zoo on ROCm installation requires `MONAI on ROCm <https://rocm.docs.
 
 6. Run inference with the ROCm overlay.
 
+   Before running inference, prepare your input data. Refer to the ``docs/`` directory inside the bundle for the expected input format.
+
    Pass the base inference configuration and the AMD ROCm overlay as a JSON list. The overlay merges into the base configuration at load time. ``--dataset_dir`` and ``--output_dir`` are resolved relative to the bundle directory. Use absolute paths to avoid ambiguity, for example ``--dataset_dir /path/to/input_dir``.
 
    .. code:: shell
