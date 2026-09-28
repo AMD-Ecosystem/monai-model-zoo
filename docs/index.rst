@@ -39,6 +39,6 @@ The code is open and hosted at `<https://github.com/AMD-Ecosystem/monai-model-zo
     * :ref:`rocm-overlays`
 
 To contribute to MONAI Model Zoo on ROCm, see
-`Contributing to monai-model-zoo <https://github.com/AMD-Ecosystem/monai-model-zoo/blob/main/CONTRIBUTING.md>`_.
+`Contributing to monai-model-zoo <https://github.com/AMD-Ecosystem/monai-model-zoo/blob/amd-develop/CONTRIBUTING.md>`_.
 
 Licensing information is on the :doc:`Licensing <license>` page.
