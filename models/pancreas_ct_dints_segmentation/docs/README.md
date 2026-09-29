@@ -174,6 +174,17 @@ python -m monai.bundle trt_export --net_id network_def --filepath models/model_t
 python -m monai.bundle run --config_file "['configs/inference.yaml', 'configs/inference_trt.yaml']"
 ```
 
+#### Execute inference on AMD GPUs (ROCm):
+
+`configs/inference_rocm.yaml` is an optional overlay for AMD GPUs. It keeps the network in the
+`channels_last_3d` memory format, runs autocast in `bfloat16`, and raises the sliding-window batch
+size from 4 to 8. `torch.compile` is not enabled here because DiNTS uses fully dynamic shapes
+that the Inductor lowering pass cannot handle with the `channels_last_3d` stride constraints.
+
+```
+python -m monai.bundle run --config_file "['configs/inference.yaml', 'configs/inference_rocm.yaml']"
+```
+
 # References
 
 [1] He, Y., Yang, D., Roth, H., Zhao, C. and Xu, D., 2021. Dints: Differentiable neural network topology search for 3d medical image segmentation. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (pp. 5841-5850).
