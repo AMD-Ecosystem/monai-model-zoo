@@ -1,0 +1,8 @@
+{
+    "_license": "SPDX-FileCopyrightText: Copyright (C) 2026 Advanced Micro Devices, Inc. All rights reserved. SPDX-License-Identifier: Apache-2.0",
+    "network": "$@network_def.to(@device).to(memory_format=torch.channels_last_3d)",
+    "evaluator#amp_kwargs": {
+        "dtype": "$torch.bfloat16"
+    },
+    "evaluator#compile": true
+}

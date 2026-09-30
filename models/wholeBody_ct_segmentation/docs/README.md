@@ -237,6 +237,16 @@ python -m monai.bundle run --config_file "['configs/inference.json', 'configs/in
 ```
 
 
+#### Execute inference on AMD GPUs (ROCm):
+
+`configs/inference_rocm.json` is an optional overlay for AMD GPUs. It keeps the network in the
+`channels_last_3d` memory format, runs autocast in `bfloat16`, and enables `torch.compile` through
+the evaluator's `compile` option.
+
+```
+python -m monai.bundle run --config_file "['configs/inference.json', 'configs/inference_rocm.json']"
+```
+
 # References
 
 [1] Tang, Y., Gao, R., Lee, H.H., Han, S., Chen, Y., Gao, D., Nath, V., Bermudez, C., Savona, M.R., Abramson, R.G. and Bao, S., 2021. High-resolution 3D abdominal segmentation with random patch network fusion. Medical image analysis, 69, p.101894.

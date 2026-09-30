@@ -140,6 +140,16 @@ python -m monai.bundle run --config_file "['configs/inference.json', 'configs/in
 ```
 
 
+#### Execute inference on AMD GPUs (ROCm):
+
+`configs/inference_rocm.json` is an optional overlay for AMD GPUs. It keeps the network in the
+`channels_last_3d` memory format, runs autocast in `bfloat16`, and enables `torch.compile` through
+the evaluator's `compile` option.
+
+```
+python -m monai.bundle run --config_file "['configs/inference.json', 'configs/inference_rocm.json']"
+```
+
 # References
 [1] Hatamizadeh, Ali, et al. "Swin UNETR: Swin Transformers for Semantic Segmentation of Brain Tumors in MRI Images." arXiv preprint arXiv:2201.01266 (2022). https://arxiv.org/abs/2201.01266.
 

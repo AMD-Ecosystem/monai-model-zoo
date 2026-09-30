@@ -165,6 +165,16 @@ The `label_mapping` in `evaluation.json` does not include `0` because the postpr
 - Make sure `0` is not included in your inference prompt for automatic segmentation.
 
 
+#### Execute inference on AMD GPUs (ROCm):
+
+`configs/inference_rocm.json` is an optional overlay for AMD GPUs. It keeps the network in the
+`channels_last_3d` memory format, runs autocast in `bfloat16`, and enables `torch.compile` by
+replacing the evaluator's network with a compiled version after weights are loaded.
+
+```
+python -m monai.bundle run --config_file "['configs/inference.json', 'configs/inference_rocm.json']"
+```
+
 # References
 - Antonelli, M., Reinke, A., Bakas, S. et al. The Medical Segmentation Decathlon. Nat Commun 13, 4128 (2022). https://doi.org/10.1038/s41467-022-30695-9
 
