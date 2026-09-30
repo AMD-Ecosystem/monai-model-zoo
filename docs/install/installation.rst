@@ -44,19 +44,27 @@ MONAI Model Zoo on ROCm installation requires `MONAI on ROCm <https://rocm.docs.
       export TORCHINDUCTOR_EPILOGUE_FUSION=1
       export TORCHINDUCTOR_MAX_AUTOTUNE_CONV_BACKENDS=ATEN,TRITON
 
-5. Run inference with the ROCm overlay.
+5. Change directory to the bundle directory. Bundles load custom code from the bundle's ``scripts/`` package. This package must be on the Python path when the configuration is initialized.
 
-   Pass the base inference configuration and the AMD ROCm overlay as a JSON list. The overlay merges into the base configuration at load time. 
+   .. code:: shell
+
+      cd models/bundle_name
+
+6. Run inference with the ROCm overlay.
+
+   Before running inference, prepare your input data. Refer to the ``docs/`` directory inside the bundle for the expected input format.
+
+   Pass the base inference configuration and the AMD ROCm overlay as a JSON list. The overlay merges into the base configuration at load time. ``--dataset_dir`` and ``--output_dir`` are resolved relative to the bundle directory. Use absolute paths to avoid ambiguity, for example ``--dataset_dir /path/to/input_dir``.
 
    .. code:: shell
 
       python -m monai.bundle run \
-          --config_file "['models/bundle_name/configs/inference.json', \
-                          'models/bundle_name/configs/inference_rocm.json']" \
-          --bundle_root models/bundle_name \
-          --dataset_dir input_dir \
-          --output_dir output_dir
+          --config_file "['configs/inference.json', \
+                          'configs/inference_rocm.json']" \
+          --bundle_root . \
+          --dataset_dir /path/to/input_dir \
+          --output_dir /path/to/output_dir
 
-   .. note:: 
-      
-      Configuration files can be in either JSON or YAML format, depending on the bundle. The input key also varies by bundle. For information about overlay keys, see :doc:`ROCm overlays <../reference/rocm-overlays>`. For information about overlay paths, configuration format, and input keys, see :doc:`Validated bundles <../reference/validated-bundles>` .
+   .. note::
+
+      Configuration files can be in either JSON or YAML format, depending on the bundle. The input key varies by bundle — for example, ``vista3d`` uses ``--input_dict``. Refer to the ``docs/`` directory inside the bundle for input format details. For information about overlay keys, see :doc:`ROCm overlays <../reference/rocm-overlays>`. For information about overlay paths and configuration format, see :doc:`Validated bundles <../reference/validated-bundles>`.
